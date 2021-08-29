@@ -2,8 +2,11 @@ const searchFood = () => {
 
     const searchInput = document.getElementById('search-field');
     const searchValue = searchInput.value;
+
+    // Clear Data
     searchInput.value = '';
 
+    // Load Data
     const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`;
     fetch(url)
         .then(res => res.json())
@@ -17,6 +20,7 @@ const displayMeal = getMeals => {
 
     const searchResult = document.getElementById('search-result');
 
+    searchResult.innerHTML = '';
     getMeals.forEach(meal => {
         const mealList = document.createElement('div');
         mealList.classList.add('col');
