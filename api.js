@@ -1,4 +1,14 @@
 const searchFood = () => {
+    // Preloader adding
+    const preloader = () => {
+        document.getElementById('loading').classList.remove('invisible');
+        document.getElementById('search-result').classList.add('d-none');
+        setTimeout(() => {
+            document.getElementById('loading').classList.add('invisible');
+            document.getElementById('search-result').classList.remove('d-none')
+        }, 3000)
+    }
+    preloader();
 
     const searchInput = document.getElementById('search-field');
     const searchValue = searchInput.value;
@@ -9,19 +19,21 @@ const searchFood = () => {
     if (searchValue == '') {
         document.getElementById('error-message').innerHTML = `
         <h1 class="text-danger">No Result Found</h1>
-        `
+        `;
     } else {
         // Load Data
         const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchValue}`;
         fetch(url)
             .then(res => res.json())
             .then(data => displayMeal(data.meals))
+            .catch(error => {
+
+                document.getElementById('api-error').innerHTML = ` <b class="text-danger">Something went wrong </b>`;
+
+            });
     }
-
-
-
-
 }
+
 
 const displayMeal = getMeals => {
 
@@ -57,12 +69,14 @@ const displayMeal = getMeals => {
 
 }
 const loadMealDetails = idMeal => {
+
     const url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idMeal}`;
     fetch(url)
         .then(res => res.json())
         .then(data => {
             const meal = data.meals[0];
             const mealDetails = document.getElementById('meal-details');
+            mealDetails.innerHTML = '';
 
             const div = document.createElement('div');
             div.classList.add('card');
