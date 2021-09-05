@@ -1,3 +1,14 @@
+// Load First
+const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=chicken`;
+fetch(url)
+    .then(res => res.json())
+    .then(data => displayMeal(data.meals))
+    .catch(error => {
+
+        document.getElementById('api-error').innerHTML = ` <b class="text-danger">Something went wrong </b>`;
+
+    });
+
 const searchFood = () => {
     // Preloader adding
     const preloader = () => {
@@ -58,7 +69,7 @@ const displayMeal = getMeals => {
             <img src="${meal.strMealThumb}" class="card-img-top" alt="...">
             <div class="card-body">
                 <h5 class="card-title">${meal.strMeal}</h5>
-                 <p class="card-text">${(meal.strInstructions).slice(0, 200)}</p>
+                 <p class="card-text">${(meal.strInstructions).slice(0, 100)}</p>
             </div>
         </div>
         `;
@@ -81,7 +92,7 @@ const loadMealDetails = idMeal => {
             const div = document.createElement('div');
             div.classList.add('card');
             div.innerHTML = `
-              <img src="${meal.strMealThumb}" class="card-img-top" alt="...">
+              <img src="${meal.strMealThumb}" class="card-img-top img-thumbnail" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">${meal.strMeal}</h5>
                     <p class="card-text">${(meal.strInstructions).slice(0, 150)}</p>
